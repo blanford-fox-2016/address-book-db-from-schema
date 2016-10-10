@@ -11,6 +11,20 @@
   "dependencies": {
     "bluebird": "^3.0.5",
     "q": "^1.4.1",
-    "sqlite3": "*"
-  }
+    "sqlite3": "^3.1.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blanford-fox-2016/address-book-db-from-schema.git"
+  },
+  "keywords": [
+    "sqlite",
+    "hacktiv8",
+    "address",
+    "book"
+  ],
+  "bugs": {
+    "url": "https://github.com/blanford-fox-2016/address-book-db-from-schema/issues"
+  },
+  "homepage": "https://github.com/blanford-fox-2016/address-book-db-from-schema#readme"
 }
