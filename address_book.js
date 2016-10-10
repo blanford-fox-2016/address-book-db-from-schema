@@ -13,41 +13,52 @@ class Contacts{
     this.no_telp = args['no_telp'];
     this.email = args['email'];
   }
-  get getnama() {
-    return this.nama;
+  // get getnama() {
+  //   return this.nama;
+  // }
+  // set setnama(nama) {
+  //   this.nama = nama
+  // }
+  // get getperusahaan() {
+  //   return this.perusahaan;
+  // }
+  // set setperusahaan(perusahaan) {
+  //   this.perusahaan = perusahaan;
+  // }
+  // get getno_telp() {
+  //   return this.no_telp;
+  // }
+  // set setno_telp(telp){
+  //   this.no_telp = telp;
+  // }
+  // get getemail() {
+  //   return this.email;
+  // }
+  // set setemail(email) {
+  //   this.email = email;
+  // }
+  //
+  validasi(){
+    if (this.no_telp.length < 13 && this.no_telp.length > 10 && /\w+@\w+.\w{2,5}/.test(this.email) ){
+      return true
+    } else {
+      return "data tidak valid"
+    }
   }
-  set setnama(nama) {
-    this.nama = nama
-  }
-  get getperusahaan() {
-    return this.perusahaan;
-  }
-  set setperusahaan(perusahaan) {
-    this.perusahaan = perusahaan;
-  }
-  get getno_telp() {
-    return this.no_telp;
-  }
-  set setno_telp(telp){
-    this.no_telp = telp;
-  }
-  get getemail() {
-    return this.email;
-  }
-  set setemail(email) {
-    this.email = email;
-  }
-
   create() {
-    let INSERT_DATA = db.prepare(`INSERT INTO contacts VALUES (null, ?, ?, ?, ?)`);
-    INSERT_DATA.run(this.nama, this.perusahaan, this.no_telp, this.email, (err) => {
-      if (err){
-        console.log(err);
-      } else {
-        console.log(`Data inserted`);
-      }
-    });
-    INSERT_DATA.finalize();
+    if (this.validasi() == true){
+      let INSERT_DATA = db.prepare(`INSERT INTO contacts VALUES (null, ?, ?, ?, ?)`);
+      INSERT_DATA.run(this.nama, this.perusahaan, this.no_telp, this.email, (err) => {
+        if (err){
+          console.log(err);
+        } else {
+          console.log(`Data inserted`);
+        }
+      });
+      INSERT_DATA.finalize();
+    } else {
+      console.log(this.validasi())
+  }
   }
   read() {
     let READ_ALL = `SELECT * FROM contacts`;
@@ -60,15 +71,19 @@ class Contacts{
     });
   }
   update(col, val, id) {
-    let UPDATE = db.prepare(`UPDATE contacts SET '${col}' = ? WHERE id = ?`);
-    UPDATE.run(val, id, (err) => {
-      if (err){
-        console.log(err);
-      } else {
-        console.log(`Data updated`);
-      }
-    });
-    UPDATE.finalize();
+    if (this.validasi() == true ){
+      let UPDATE = db.prepare(`UPDATE contacts SET '${col}' = ? WHERE id = ?`);
+      UPDATE.run(val, id, (err) => {
+        if (err){
+          console.log(err);
+        } else {
+          console.log(`Data updated`);
+        }
+      });
+      UPDATE.finalize();
+    } else {
+      console.log(this.validasi())
+    }
   }
 
   delete(id) {
@@ -93,7 +108,8 @@ class Contacts{
       });
       INSERT_DATA.finalize();
     }
-
+    let x = db.lastInsertRowId;
+    console.log(db);
   }
 
 }
@@ -123,9 +139,18 @@ class Groups {
       }
     });
   }
-  update(id) {
-
+  update(name,id) {
+    let UPDATE = db.prepare(`UPDATE groups SET 'nama' = ? WHERE id = ?`);
+    UPDATE.run(name, id, (err) => {
+        if (err){
+          console.log(err);
+        } else {
+          console.log(`Data updated`);
+        }
+      });
+    UPDATE.finalize();
   }
+
   delete(id) {
     let DELETE = `DELETE FROM groups WHERE id = ${id};`
     db.run(DELETE, (err) => {
@@ -142,15 +167,34 @@ class Groups {
 }
 
 class GroupContacts {
+  join_group(group_id, contact_id) {
+    let GROUPINGCONTACT = db.prepare(`INSERT INTO group_contacts VALUES (null, ?, ?);`)
+    GROUPINGCONTACT.run(group_id, contact_id, (err) => {
+      if (err){
+        console.log(err);
+      } else {
+        console.log(`Grouping success!`);
+      }
+    });
+    GROUPINGCONTACT.finalize();
+  }
 
+  show_group(id) {
+
+  }
 }
 
-// let contacts = new Contacts({nama: "Izhharuddin", perusahaan : "SyanCorp", email: "syanmil@yahoo.com", no_telp: "081280142486"});
-let contacts = new Contacts();
-contacts.update("nama", "susantiana", 1)
+// let contacts = new Contacts({nama: "tessi", perusahaan : "tessa", email: "tissu@tessa.com", no_telp: "081234567891"});
+// let contacts = new Contacts();
+let gc = new GroupContacts();
+gc.join_group(2, 2)
+// gc.join_group(2, 3)
+// contacts.create()
+// contacts.update("nama", "susantiana", 1)
 // contacts.save();
-contacts.read();
-// contacts.delete(4)
-// let groups = new Groups({nama: "blandford"})
+// contacts.read();
+// contacts.delete(8)
+// let groups = new Groups()
+// groups.update('Blandford Fox', 2)
 // groups.create();
 // groups.read()
