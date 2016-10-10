@@ -179,15 +179,24 @@ class GroupContacts {
     GROUPINGCONTACT.finalize();
   }
 
-  show_group(id) {
-
+  show_group() {
+    let JOINGROUP = `SELECT contacts.id, contacts.nama AS con_nama, contacts.perusahaan, contacts.email, contacts.no_telp, groups.nama AS group_nama FROM groups JOIN group_contacts ON group_contacts.group_id = groups.id JOIN contacts ON group_contacts.contact_id = contacts.id`;
+    db.each(JOINGROUP, (err, row) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`${row.id} | ${row.con_nama} | ${row.perusahaan} | ${row.email} | ${row.no_telp} | Join on group: ${row.group_nama}`);
+      }
+    });
   }
 }
 
 // let contacts = new Contacts({nama: "tessi", perusahaan : "tessa", email: "tissu@tessa.com", no_telp: "081234567891"});
 // let contacts = new Contacts();
 let gc = new GroupContacts();
-gc.join_group(2, 2)
+gc.show_group()
+// gc.join_group(2, 2)
+// gc.show_group(2)
 // gc.join_group(2, 3)
 // contacts.create()
 // contacts.update("nama", "susantiana", 1)
