@@ -1,0 +1,45 @@
+{
+  "contacts": [{
+    "name":"Budi",
+    "strees_address":"kebon mangga",
+    "city":"kebayoran",
+    "state":"Indonesia",
+    "phone":"124324235",
+    "email":"budi@gmail.com"
+    },
+    {
+    "name":"Andy",
+    "strees_address":"Ilyas",
+    "city":"Lebak bulus",
+    "state":"Indonesia",
+    "phone":"435346346",
+    "email":"Andy@gmail.com"
+    },
+    {
+    "name":"rudi",
+    "strees_address":"kebon mangga",
+    "city":"kebayoran",
+    "state":"Indonesia",
+    "phone":"124324235",
+    "email":"rudi@gmail.com"
+  }],
+  "groups":[
+    {
+      "group_name":"family"
+    }
+  ],
+  "group_kontak":[
+    {
+      "group_id":1,
+      "member_id":1
+    },
+    {
+      "group_id":1,
+      "member_id":2
+    },
+    {
+      "group_id":1,
+      "member_id":3
+    }
+  ]
+}
