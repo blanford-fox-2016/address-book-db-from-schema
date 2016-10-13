@@ -14,7 +14,7 @@ class contacts {
 
 
 
-    tambahKontak(){
+    tambahKontakDbKosong(){
       db.get(`SELECT * FROM contacts`, (err, row)=>{
               if(err){
                 console.log(err);
@@ -45,8 +45,25 @@ class contacts {
 
                 }
               }
-            })
+           })
         }
+
+    tambahKontak(){
+      db.run(`INSERT INTO contacts (name, email, phone, address)VALUES('${this.nama}','${this.email}','${this.phone}','${this.address}');`, (err)=>{
+        if(err){
+          console.log(err);
+        }else{
+          db.run(`INSERT INTO contacts_groups (contacts_id) values (last_insert_rowid())`, (err) =>{
+            if(err){
+              console.log(err);
+            }else{
+              console.log("Tambah Data ke contacts_groups Success");
+            }
+          })
+          console.log("Tambah Data ke contacts Success");
+        }
+      })
+    }
 
     save() {
         db.run(`UPDATE contacts SET name='Bob'`, (err)=>{
@@ -122,20 +139,21 @@ let data2 ={
 }
 
 let data = {
-  nama: "mangku",
-  email: "mangku@yahoo.com",
-  phone: "12345678910",
-  address: "jalan kemanggisan Provinsi utama 1 no. 69"
+  nama: "aandika",
+  email: "1amangku@yahoo.com",
+  phone: "12345678810",
+  address: "jaaalan kemanggisan Provinsi utama 1 no. 69"
 }
 
 let kontak = new contacts(data)
-//kontak.tambahKontak();
-kontak.save();
+kontak.tambahKontak();
+//kontak.tambahKontakDbKosong();
+//kontak.save();
 //kontak.tambahGroup()
 // console.log(kontak.id)
-driver()
+//driver()
 
 
 
-let regu = new group(data2)
+//let regu = new group(data2)
 // regu.tambahGroup()
