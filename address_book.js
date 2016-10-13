@@ -146,7 +146,8 @@ let data = {
 }
 
 let kontak = new contacts(data)
-kontak.tambahKontak();
+kontak.updateAlamat("jakarta",21)
+//kontak.tambahKontak();
 //kontak.tambahKontakDbKosong();
 //kontak.save();
 //kontak.tambahGroup()
