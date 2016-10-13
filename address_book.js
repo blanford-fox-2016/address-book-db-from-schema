@@ -49,6 +49,13 @@ class contacts {
         }
 
     tambahKontak(){
+      if(this.phone.length < 11 || this.phone.length > 12){
+        console.log("Input Telp Harus 11 Atau 12 Digit");
+      }else if(/^\w+@[a-zA-Z]+?\.[a-sA-Z]{2,3}$/.test(this.email)===false){
+        console.log("Format Email Salah");
+      }else if(/prov/g.test(this.address.toLowerCase())===false){
+        console.log("Masukkan Nama kata");
+      }else{
       db.run(`INSERT INTO contacts (name, email, phone, address)VALUES('${this.nama}','${this.email}','${this.phone}','${this.address}');`, (err)=>{
         if(err){
           console.log(err);
@@ -63,6 +70,8 @@ class contacts {
           console.log("Tambah Data ke contacts Success");
         }
       })
+    }
+
     }
 
     save() {
@@ -101,21 +110,22 @@ class contacts {
 
 class group {
   constructor(param){
-    this.name=param['nama'];
+    this.name=param['name'];
   }
 
   tambahGroup(){
-    db.run(`INSERT INTO groups (name)VALUES('${this.name}');`, (err)=>{
+    db.run(`INSERT INTO groups (name) VALUES('${this.name}');`, (err)=>{
       if(err){
         console.log(err);
       }else{
-        db.run(`UPDATE INTO contacts(groups_id) values (last_insert_rowid())`, (err) =>{
-          if(err){
-            console.log(err);
-          }else{
-            console.log("Tambah Data ke contacts_groups Success");
-          }
-        })
+        // db.run(`UPDATE INTO contacts(groups_id) values (last_insert_rowid())`, (err) =>{
+        //   if(err){
+        //     console.log(err);
+        //   }else{
+        //     console.log("Tambah Data ke contacts_groups Success");
+        //   }
+        // })
+        console.log("Data Groups Masuk");
       }
     })
   }
@@ -135,19 +145,20 @@ class group {
 
 
 let data2 ={
-  nama:"contoh",
+  name:"tes088"
 }
 
 let data = {
-  nama: "aandika",
-  email: "1amangku@yahoo.com",
-  phone: "12345678810",
-  address: "jaaalan kemanggisan Provinsi utama 1 no. 69"
+  nama: "contoh",
+  email: "ngku@yahoo.com",
+  phone: "12345678000",
+  address: "jaaalan kemanggisan provinsi jakarta utama 1 no. 69"
 }
 
 let kontak = new contacts(data)
-kontak.updateAlamat("jakarta",21)
-//kontak.tambahKontak();
+//kontak.deleteKontak(23)
+//kontak.updateAlamat("jakarta",23)
+kontak.tambahKontak();
 //kontak.tambahKontakDbKosong();
 //kontak.save();
 //kontak.tambahGroup()
@@ -156,5 +167,6 @@ kontak.updateAlamat("jakarta",21)
 
 
 
-//let regu = new group(data2)
-// regu.tambahGroup()
+let regu = new group(data2)
+ //regu.tambahGroup()
+ //regu.deleteGroup(13)
