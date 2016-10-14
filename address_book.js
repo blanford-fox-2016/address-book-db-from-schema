@@ -154,7 +154,7 @@ class GroupContacts {
   }
 
   show_group(group_id) {
-    let JOINGROUP = `SELECT contacts.id, contacts.nama AS con_nama, contacts.perusahaan, contacts.email, contacts.no_telp, groups.nama AS group_nama FROM groups JOIN group_contacts ON group_contacts.group_id = groups.id JOIN contacts ON group_contacts.contact_id = contacts.id WHERE group_contacts.group_id = ${groups_id}`;
+    let JOINGROUP = `SELECT contacts.id, contacts.nama AS con_nama, contacts.perusahaan, contacts.email, contacts.no_telp, groups.nama AS group_nama FROM groups JOIN group_contacts ON group_contacts.group_id = groups.id JOIN contacts ON group_contacts.contact_id = contacts.id WHERE group_contacts.group_id = ${group_id}`;
     db.each(JOINGROUP, (err, row) => {
       if (err) {
         console.log(err);
