@@ -147,15 +147,60 @@ class Contact {
       }
     })
   }
+}
+
+class Grup {
+  constructor(arg) {
+    this.name = arg['name']
+  }
+
+  viewGrup() {
+    db.each("SELECT * FROM grup", function(err, row){
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`${row.id} | ${row.nama}`);
+      }
+    })
+  }
+
+  tambahGrup() {
+    db.run(`INSERT INTO grup VALUES(null, '${this.name}')`, function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`INSERT grup`);
+      }
+    })
+  }
+
+  hapusGrup(id) {
+    db.run(`DELETE FROM grup WHERE id = '${id}'`, function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('DELETE GRUP');
+      }
+    })
+  }
 
 }
 
 var contact = new Contact({name: "Mangkuh", address: "jalan apa provinsis dadap", phone:"123123456456", email:"mangkuwi26@gmail.co"})
+var grup = new Grup({name: "lala"})
+
 // contact.insertKontak()
 // contact.id
 // contact.save()
 // contact.insertGrup()
 // contact.ubahAlamat(1,"jalan bogor")
 // contact.hapusKontak(5)
-contact.viewKontakGrup()
+// contact.viewKontakGrup()
 // contact.tambahKontakKeGrup(1,1)
+
+
+
+//tambahan
+// grup.tambahGrup()
+//grup.hapusGrup(3)
+// grup.viewGrup()
