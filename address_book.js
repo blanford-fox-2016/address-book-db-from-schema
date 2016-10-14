@@ -7,48 +7,36 @@ let db = new sqlite.Database(file);
 
 class Contacts{
   constructor(args={}){
-    this.id = args['id'] || "";
+    this.id = args['id'];
     this.nama = args['nama'];
     this.perusahaan = args['perusahaan'];
     this.no_telp = args['no_telp'];
     this.email = args['email'];
   }
-  // get getnama() {
-  //   return this.nama;
-  // }
-  // set setnama(nama) {
-  //   this.nama = nama
-  // }
-  // get getperusahaan() {
-  //   return this.perusahaan;
-  // }
-  // set setperusahaan(perusahaan) {
-  //   this.perusahaan = perusahaan;
-  // }
-  // get getno_telp() {
-  //   return this.no_telp;
-  // }
-  // set setno_telp(telp){
-  //   this.no_telp = telp;
-  // }
-  // get getemail() {
-  //   return this.email;
-  // }
-  // set setemail(email) {
-  //   this.email = email;
-  // }
-  //
-  validasi(){
-    if (this.no_telp.length < 13 && this.no_telp.length > 10 && /\w+@\w+.\w{2,5}/.test(this.email) ){
+
+  isPhone(no_telp) {
+    let cek_telp  = `${no_telp}`
+    if (cek_telp.length < 13 && cek_telp.length > 10){
       return true
     } else {
-      return "data tidak valid"
+      return "No. telephone tidak valid"
+    }
+    // console.log(cek_telp);
+  }
+
+  isEmail(email) {
+    if (/\w+@\w+.\w{2,5}/.test(email)){
+      return true
+    } else {
+      return "Email tidak valid"
     }
   }
-  create() {
-    if (this.validasi() == true){
+
+
+  create(nama, perusahaan, email, no_telp) {
+    if (contacts.isEmail(email) == true && contacts.isPhone(no_telp) == true){
       let INSERT_DATA = db.prepare(`INSERT INTO contacts VALUES (null, ?, ?, ?, ?)`);
-      INSERT_DATA.run(this.nama, this.perusahaan, this.no_telp, this.email, (err) => {
+      INSERT_DATA.run(nama, perusahaan, `0${no_telp.toString()}`, email, (err) => {
         if (err){
           console.log(err);
         } else {
@@ -57,9 +45,11 @@ class Contacts{
       });
       INSERT_DATA.finalize();
     } else {
-      console.log(this.validasi())
+      console.log(contacts.isEmail(email));
+      console.log(contacts.isPhone(no_telp));
+    }
   }
-  }
+
   read() {
     let READ_ALL = `SELECT * FROM contacts`;
     db.each(READ_ALL, (err, row) => {
@@ -70,6 +60,7 @@ class Contacts{
       }
     });
   }
+
   update(col, val, id) {
     if (this.validasi() == true ){
       let UPDATE = db.prepare(`UPDATE contacts SET '${col}' = ? WHERE id = ?`);
@@ -96,21 +87,6 @@ class Contacts{
       }
     })
   }
-  save() {
-    if (this.id === "") {
-      let INSERT_DATA = db.prepare(`INSERT INTO contacts VALUES (null, ?, ?, ?, ?)`);
-      INSERT_DATA.run(this.nama, this.perusahaan, this.no_telp, this.email, (err) => {
-        if (err){
-          console.log(err);
-        } else {
-          console.log(`Data inserted`);
-        }
-      });
-      INSERT_DATA.finalize();
-    }
-    let x = db.lastInsertRowId;
-    console.log(db);
-  }
 
 }
 
@@ -118,9 +94,9 @@ class Groups {
   constructor(args={}) {
     this.nama = args['nama'];
   }
-  create() {
+  create(name) {
     let INSERT_DATA = db.prepare(`INSERT INTO groups VALUES (null, ?)`);
-    INSERT_DATA.run(this.nama, (err) => {
+    INSERT_DATA.run(name, (err) => {
       if (err){
         console.log(err);
       } else {
@@ -161,9 +137,7 @@ class Groups {
       }
     })
   }
-  save() {
 
-  }
 }
 
 class GroupContacts {
@@ -179,8 +153,8 @@ class GroupContacts {
     GROUPINGCONTACT.finalize();
   }
 
-  show_group() {
-    let JOINGROUP = `SELECT contacts.id, contacts.nama AS con_nama, contacts.perusahaan, contacts.email, contacts.no_telp, groups.nama AS group_nama FROM groups JOIN group_contacts ON group_contacts.group_id = groups.id JOIN contacts ON group_contacts.contact_id = contacts.id`;
+  show_group(group_id) {
+    let JOINGROUP = `SELECT contacts.id, contacts.nama AS con_nama, contacts.perusahaan, contacts.email, contacts.no_telp, groups.nama AS group_nama FROM groups JOIN group_contacts ON group_contacts.group_id = groups.id JOIN contacts ON group_contacts.contact_id = contacts.id WHERE group_contacts.group_id = ${groups_id}`;
     db.each(JOINGROUP, (err, row) => {
       if (err) {
         console.log(err);
@@ -191,19 +165,22 @@ class GroupContacts {
   }
 }
 
-// let contacts = new Contacts({nama: "tessi", perusahaan : "tessa", email: "tissu@tessa.com", no_telp: "081234567891"});
-// let contacts = new Contacts();
+
+let contacts = new Contacts();
 let gc = new GroupContacts();
-gc.show_group()
-// gc.join_group(2, 2)
-// gc.show_group(2)
-// gc.join_group(2, 3)
-// contacts.create()
-// contacts.update("nama", "susantiana", 1)
-// contacts.save();
-// contacts.read();
-// contacts.delete(8)
-// let groups = new Groups()
-// groups.update('Blandford Fox', 2)
-// groups.create();
-// groups.read()
+let groups = new Groups();
+
+
+var r = repl.start({prompt: '>'});
+r.context.viewAllContacts = contacts.read
+r.context.addNewContact = contacts.create //(nama, perusahaan, email, no_telp)
+r.context.deleteContact = contacts.delete //(id)
+r.context.editContact = contacts.update //(id)
+
+r.context.viewAllGroups = groups.read
+r.context.addNewGroup = groups.create // (namagrup)
+r.context.deleteGroup = groups.delete // (id)
+r.context.editGroup = groups.update // (id)
+
+r.context.joinGroup = gc.join_group // (grup_id, contact_id)
+r.context.showGroupMembers = gc.show_group // (group_id)
