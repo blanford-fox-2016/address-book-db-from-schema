@@ -1,1 +1,28 @@
-[{"firstname":"Alexander","lastname":"Hendrawan","birthdate":"1992-08-17","phone":"0899954321","email":"alex@gmail.com","company":"PT.H8"},{"firstname":"Toni","lastname":"Chen","birthdate":"1992-11-23","phone":"0877954321","email":"toni@gmail.com","company":"PT.Hacktivate"}]
+{
+	"contacts": [{
+		"firstname": "Ahyana",
+		"lastname": "Rizky",
+    "birthdate":"1992-01-18",
+		"email": "ariz@gmail.com",
+    "phone": "08561423778",
+		"company": "Ariz Industries"
+	}, {
+		"firstname": "Toni",
+		"lastname": "Chen",
+    "birthdate":"1991-02-28",
+		"email": "toni@gmail.com",
+    "phone": "085789101112",
+		"company": "Tony Stark"
+	}],
+	"groups": [{
+		"groupname": "Hacktiv8",
+    "tag":"Work"
+	}],
+	"relation_contacts": [{
+		"contacts_id": 1,
+		"groups_id": 1
+	}, {
+		"contacts_id": 2,
+		"groups_id": 1
+	}]
+}

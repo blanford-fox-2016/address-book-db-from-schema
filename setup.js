@@ -11,8 +11,35 @@ var db = new sqlite.Database(file)
 var CREATE_TABLE_CONTACTS = "CREATE TABLE IF NOT EXISTS contacts (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname TEXT NOT NULL, lastname TEXT, birthdate DATE, email TEXT, phone TEXT, company TEXT);"
 var CREATE_TABLE_GROUPS = "CREATE TABLE IF NOT EXISTS groups (id INTEGER PRIMARY KEY AUTOINCREMENT, groupname TEXT NOT NULL, tag TEXT);"
 var CREATE_TABLE_RELATION = "CREATE TABLE IF NOT EXISTS relation_contacts (id INTEGER PRIMARY KEY AUTOINCREMENT, contacts_id INTEGER, groups_id INTEGER, FOREIGN KEY(contacts_id) REFERENCES contacts(id), FOREIGN KEY(groups_id) REFERENCES groups(id));"
-var SEED_DATA_1 = `INSERT INTO contacts (firstname,lastname,birthdate,email,phone,company) VALUES ('${data[0].firstname}','${data[0].lastname}','${data[0].birthdate}','${data[0].email}','${data[0].phone}','${data[0].company}')`
-var SEED_DATA_2 = `INSERT INTO contacts (firstname,lastname,birthdate,email,phone,company) VALUES ('${data[1].firstname}','${data[1].lastname}','${data[1].birthdate}','${data[1].email}','${data[1].phone}','${data[1].company}')`
+// Seed to Contacts table
+let SEED_DATA = "INSERT INTO contacts (firstname, lastname, birthdate, email, phone, company) VALUES "
+
+for (let i = 0; i < data.contacts.length; i++) {
+  SEED_DATA += "('" + data.contacts[i].firstname + "', '" + data.contacts[i].lastname + "', '" + data.contacts[i].birthdate + "', '" + data.contacts[i].email + "', '" + data.contacts[i].phone + "', '" + data.contacts[i].company + "')"
+  if (data.contacts.length - 1 > i) {
+    SEED_DATA += ", "
+  }
+}
+
+// Seed to Group table
+let SEED_GROUP_DATA = "INSERT INTO groups (groupname, tag) VALUES "
+
+for (let i = 0; i < data.groups.length; i++) {
+  SEED_GROUP_DATA += "('" + data.groups[i].groupname + "', '" + data.groups[i].tag + "')"
+  if (data.groups.length - 1 > i) {
+    SEED_GROUP_DATA += ", "
+  }
+}
+
+// Seed to Transactional table
+let SEED_RELATION_TABLE = "INSERT INTO relation_contacts (contacts_id, groups_id) VALUES "
+
+for (let i = 0; i < data.relation_contacts.length; i++) {
+  SEED_RELATION_TABLE += "('" + data.relation_contacts[i].contacts_id + "', '" + data.relation_contacts[i].groups_id + "')"
+  if (data.relation_contacts.length - 1 > i) {
+    SEED_RELATION_TABLE += ", "
+  }
+}
 
 
 
@@ -66,5 +93,6 @@ let seedData =(values)=> {
 createTableContacts()
 createTableGroups()
 createTableRelation()
-seedData(SEED_DATA_1)
-seedData(SEED_DATA_2)
+seedData(SEED_DATA)
+seedData(SEED_GROUP_DATA)
+seedData(SEED_RELATION_TABLE)
