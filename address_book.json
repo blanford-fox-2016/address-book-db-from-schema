@@ -1,28 +1,38 @@
 {
-	"contacts": [{
-		"firstname": "Ahyana",
-		"lastname": "Rizky",
-    "birthdate":"1992-01-18",
-		"email": "ariz@gmail.com",
-    "phone": "08561423778",
-		"company": "Ariz Industries"
-	}, {
-		"firstname": "Toni",
-		"lastname": "Chen",
-    "birthdate":"1991-02-28",
-		"email": "toni@gmail.com",
-    "phone": "085789101112",
-		"company": "Tony Stark"
-	}],
-	"groups": [{
-		"groupname": "Hacktiv8",
-    "tag":"Work"
-	}],
-	"relation_contacts": [{
-		"contacts_id": 1,
-		"groups_id": 1
-	}, {
-		"contacts_id": 2,
-		"groups_id": 1
-	}]
+    "contacts": [{
+        "id": 1,
+        "firstname": "Ahyana",
+        "lastname": "Rizky",
+        "birthdate": "1992-01-18",
+        "email": "ariz@gmail.com",
+        "phone": "08561423778",
+        "company": "Ariz Industries"
+    }, {
+        "id": 2,
+        "firstname": "Toni",
+        "lastname": "Chen",
+        "birthdate": "1991-02-28",
+        "email": "toni@gmail.com",
+        "phone": "085789101112",
+        "company": "Tony Stark"
+    }, {
+        "id": 3,
+        "firstname": "Sahbana",
+        "lastname": "Gold",
+        "birthdate": "1993-03-28",
+        "email": "sahbanagold@gmail.com",
+        "phone": "085679101112",
+        "company": "SAHBANA GOLD"
+    }],
+    "groups": [{
+        "groupname": "Hacktiv8",
+        "tag": "Work"
+    }],
+    "relation_contacts": [{
+        "contacts_id": 1,
+        "groups_id": 1
+    }, {
+        "contacts_id": 2,
+        "groups_id": 1
+    }]
 }

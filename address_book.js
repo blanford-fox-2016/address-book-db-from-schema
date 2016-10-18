@@ -71,20 +71,14 @@ class Contacts {
 
 
      save(){
-    var a = new Contacts({id:data.length+1,firstname:this.firstname, lastname:this.lastname, birthdate:this.birthdate, phone:this.phone, email:this.email,company:this.company})
-    data.push(a)
-    var write = JSON.stringify(data)
-    fs.writeFileSync('address_book.json', write, 'utf8')
-    db.serialize(function(){
-      db.run(`INSERT INTO contacts (firstname,lastname,birthdate,phone,email,company) VALUES ('${data[data.length-1].firstname}','${data[data.length-1].lastname}','${data[data.length-1].birthdate}','${data[data.length-1].phone}','${data[data.length-1].email}','${data[data.length-1].company}');`, function(err, callback){
+      db.run(`INSERT INTO contacts (firstname,lastname,birthdate,phone,email,company) VALUES ('${this._firstname}','${this._lastname}','${this._birthdate}','${this._phone}','${this._email}','${this._company}');`, function(err, callback){
         if(err){
           console.log(err);
         }else{
           console.log(`New contact saved !`);
-          this._id = data.length
-          console.log(`ID changed to : ${this._id}`);
+          // this._id = data.length
+          // console.log(`ID changed to : ${this._id}`);
         }
-      })
     })
 
     }
@@ -108,13 +102,13 @@ class Contacts {
       })
     }
 
-    delete(){
+    delete(id){
       db.serialize(function(){
-        db.run(`DELETE FROM contacts WHERE id = ${this.id-1};`, function(err, callback){
+        db.run(`DELETE FROM contacts WHERE id = ${id};`, function(err, callback){
           if(err){
             console.log(err);
           }else{
-            var time = function(){console.log(`Contact ID : ${this.id-1} has deleted`);}
+            console.log(`Contact ID : ${id} has deleted`)
           }
         })
       })
@@ -187,23 +181,17 @@ class Groups{
   }
 }
 
-var contact = new Contacts({
-    firstname: "Sahbana",
-    lastname:"Gold",
-    birthdate: "1983-06-29",
-    phone: "0856437789",
-    email: "sahbanagold@gmail.com",
-    company: "PT. Hacktiv8"
-})
-// var log = function(){console.log(contact.id);}
-// console.log(contact.id);
-// contact.save()
-// contact.delete()
+var contact = new Contacts({firstname:"Windy",lastname:"Kris",birthdate:"1983-06-29",phone:"0856437789",email:"windy@gmail.com",company:"PT. Hacktiv8"})
+
+contact.save()
+// console.log(contact.firstname);
+// contact.delete(13)
 // setTimeout(log, 1000)
 // contact.delete(10)
-contact.read()
+// contact.read()
 var fox = new Groups({groupname:'h8', tag:'study'})
 // fox.createGroup()
 // fox.deleteGroup(2)
 // fox.updateGroup('tag','study & playing',7)
-fox.readGroup()
+// fox.readGroup()
+// console.log(data.contacts);
