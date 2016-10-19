@@ -32,7 +32,7 @@ export class Adress_Book {
 
   static update_user(user, id) {
     db.serialize(function(){
-     db.run(`UPDATE user SET first_name = '${user.first_name}', last_name ='${user.last_name}', user_email ='${user.user_email}', '${user.user_address}' WHERE id = '${id}'`, function(err){
+     db.run(`UPDATE user SET (first_name, last_name, user_email, user_address)('${user.first_name}', '${user.last_name}', '${user.user_email}', '${user.user_address}') WHERE id = '${this.id}')`, function(err){
        if(err){
          console.log(err);
        }else{
@@ -57,12 +57,12 @@ export class Adress_Book {
   static delete_user(id) {
     db.run(` DELETE FROM 'user' where id='${id}'`, (err) => {
       err ? console.error(err) : console.log("deleted");
-    }
+    });
   }
 
   static delete_group(id) {
     db.run(` DELETE FROM 'group' where id='${id}'`, (err) => {
       err ? console.error(err) : console.log("deleted");
-    }
+    });
   }
 }
