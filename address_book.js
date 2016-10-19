@@ -83,10 +83,10 @@ class Kontak {
           console.log(err);
         }else {
           db.run(` DELETE FROM 'kontak' where id='${idkontak}'`,function (error){
-            if (err) {
+            if (error) {
               console.log(`id kontak ${idkontak} tidak teradaftar`);
             }else {
-
+              console.log("deleting...");
             }
           });
         }
@@ -163,10 +163,11 @@ var person = {
 // objek kontak
 // data person ada di atas
 var person1 = new Kontak(person)
-console.log(person1.id); // output null
-person1.save()
-console.log(person1.id); // output 1
-// person1.deleting(1);
+// console.log(person1.id); // output null
+// person1.save()
+// console.log(person1.id); // output 1
+person1.deleting(1);
+
 
 // ganti nama yang ada di objek bukan di database, kalo mau yang di database pake yang person1.setFirstname = "nama depan"
 // person1.firstname = "hallo world"
